@@ -62,6 +62,7 @@ object Image
                 {
                     for (kernel_width in 0..2)
                     {
+//                        int index = (i * 3) + j;
                         val kernelValue = kernel.kernelMatrix[kernel_height][kernel_width]
                         System.err.print(kernelValue)
                         image.setRGB(kernel_height, kernel_width, Color.RED.rgb)
