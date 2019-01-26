@@ -49,23 +49,25 @@ object Image
         return image
     }
 
+    val x_positions = intArrayOf(-1, 0, +1)
+    val y_positions = intArrayOf(-1, 0, +1)
+
     fun applyConvolution(image: BufferedImage, kernel: KernelType = KernelType.IDENTITY)
     {
+        val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_BYTE_GRAY)
         for (y_axis in 0..(image.height - 1))
         {
             for (x_axis in 0..(image.width -1))
             {
-                var accumulator = 0
-                val centralPixel: Int = image.getRGB(y_axis, x_axis)
+                val centralPixel: Int = image.getRGB(x_axis, y_axis)
 
                 for (kernel_height in 0..2)
                 {
                     for (kernel_width in 0..2)
                     {
-//                        int index = (i * 3) + j;
-                        val kernelValue = kernel.kernelMatrix[kernel_height][kernel_width]
-                        System.err.print(kernelValue)
-                        image.setRGB(kernel_height, kernel_width, Color.RED.rgb)
+                        val index = (kernel_height * 3) + kernel_width
+                        val kernelValue = kernel.kernelMatrix[index]
+                        System.err.println("${x_axis + x_positions[kernel_width]}" + " ${y_axis + y_positions[kernel_height]}")
                     }
                 }
 

@@ -18,7 +18,7 @@ class Main{
         @JvmStatic
         fun main (args: Array<String>)
         {
-            val theFile = File("""C:\git\KernelConvolution\resources\old_man_of_storr_black_and_white.jpg""");
+            val theFile = File("""C:\git\KernelConvolution\resources\10width-5height.png""");
             var theImage: BufferedImage = ImageIO.read(theFile)
 
             showImage(theImage)

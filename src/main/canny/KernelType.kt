@@ -1,16 +1,10 @@
 package main.canny
 
-enum class KernelType(val kernelMatrix: Array<IntArray>) {
+enum class KernelType(val kernelMatrix: IntArray) {
 
-    IDENTITY(arrayOf(intArrayOf(0,0,0),
-                    intArrayOf(0,1,0),
-                    intArrayOf(0,0,0))),
+    IDENTITY(intArrayOf(0, 0, 0, 0, 1, 0, 0, 0, 0)),
 
-    EDGE_DETECTION(arrayOf( intArrayOf(1, 0, -1),
-                            intArrayOf(0, 0, 0),
-                            intArrayOf(-1, 0, 1))),
+    EDGE_DETECTION(intArrayOf( 1, 0, -1, 0, 0, 0, -1, 0, 1)),
 
-    SHARPEN(arrayOf(intArrayOf( 0, -1, 0),
-                    intArrayOf(-1, 5, -1),
-                    intArrayOf( 0, -1, 0)))
+    SHARPEN(intArrayOf( 0, -1, 0, -1, 5, -1, 0, -1, 0))
 }
