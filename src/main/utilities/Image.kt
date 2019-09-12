@@ -52,14 +52,13 @@ object Image
     val x_positions = intArrayOf(-1, 0, +1)
     val y_positions = intArrayOf(-1, 0, +1)
 
-    fun applyConvolution(image: BufferedImage, kernel: KernelType = KernelType.IDENTITY)
+    fun applyConvolution(image: BufferedImage, kernel: KernelType = KernelType.IDENTITY): BufferedImage
     {
         val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_BYTE_GRAY)
         for (y_axis in 0..(image.height - 1))
         {
             for (x_axis in 0..(image.width -1))
             {
-                val centralPixel: Int = image.getRGB(x_axis, y_axis)
 
                 for (kernel_height in 0..2)
                 {
@@ -67,11 +66,36 @@ object Image
                     {
                         val index = (kernel_height * 3) + kernel_width
                         val kernelValue = kernel.kernelMatrix[index]
-                        System.err.println("${x_axis + x_positions[kernel_width]}" + " ${y_axis + y_positions[kernel_height]}")
+
+                        if (x_axis + x_positions[kernel_width] < 0 || y_axis + y_positions[kernel_height] < 0) {
+                            break
+                        }
+
+                        if (x_axis + x_positions[kernel_width] > image.width - 1|| y_axis + y_positions[kernel_height] > image.height - 1){
+                            break
+                        }
+
+                        //System.err.println("X: ${x_axis + x_positions[kernel_width]} Y: ${y_axis + y_positions[kernel_height]}")
+                        val currentPixelRGB = image.getRGB(x_axis + x_positions[kernel_width], y_axis + y_positions[kernel_height])
+
+                        val oldColour = Color(currentPixelRGB)
+
+                        System.err.println("R: ${oldColour.red * kernelValue} G: ${oldColour.green * kernelValue} B: ${oldColour.blue * kernelValue}")
+
+                        if (kernelValue == 0){
+                            break;
+                        }
+
+                        val newRed = oldColour.red * kernelValue
+                        val newGreen = oldColour.green * kernelValue
+                        val newBlue = oldColour.blue * kernelValue
+
+                        val newColour = Color(newRed, newGreen, newBlue)
+                        newImage.setRGB(x_axis + x_positions[kernel_width], y_axis + y_positions[kernel_height], newColour.rgb)
                     }
                 }
-
             }
         }
+        return newImage
     }
 }

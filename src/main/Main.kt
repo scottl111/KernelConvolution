@@ -1,8 +1,6 @@
 package main
 
-import main.utilities.Image
 import main.utilities.Image.applyConvolution
-import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -11,26 +9,21 @@ import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.JPanel
 
-class Main{
+class Main {
 
     companion object {
 
         @JvmStatic
-        fun main (args: Array<String>)
-        {
-            val theFile = File("""C:\git\KernelConvolution\resources\10width-5height.png""");
-            var theImage: BufferedImage = ImageIO.read(theFile)
+        fun main(args: Array<String>) {
+            val theFile = File("""C:\chow.jpg""");
+            val theImage: BufferedImage = ImageIO.read(theFile)
 
             showImage(theImage)
-
-            val pixels: Array<Array<Color>> = Image.convertImageToPixels(theImage)
-            theImage = Image.convertPixelsToImage(pixels)
-
-            showImage(theImage)
-            applyConvolution(theImage)
+            val kernelApplied = applyConvolution(theImage)
+            showImage(kernelApplied)
         }
 
-        fun showImage(img: BufferedImage){
+        fun showImage(img: BufferedImage) {
             val frame = JFrame();
             frame.isVisible = true
             frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
