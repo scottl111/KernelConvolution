@@ -15,7 +15,7 @@ class Main {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val theFile = File("""C:\chow.jpg""");
+            val theFile = File("""C:\Princess_Anne.jpg""");
             val theImage: BufferedImage = ImageIO.read(theFile)
 
             showImage(theImage)
