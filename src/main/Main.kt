@@ -1,6 +1,5 @@
 package main
 
-import main.canny.KernelType
 import main.utilities.Image.applyConvolution
 import java.awt.image.BufferedImage
 import java.io.File
@@ -20,7 +19,7 @@ class Main {
             val theImage: BufferedImage = ImageIO.read(theFile)
 
             showImage(theImage)
-            val kernelApplied = applyConvolution(theImage, KernelType.IDENTITY)
+            val kernelApplied = applyConvolution(theImage)
             showImage(kernelApplied)
         }
 
