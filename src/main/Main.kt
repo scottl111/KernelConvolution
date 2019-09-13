@@ -1,5 +1,6 @@
 package main
 
+import main.canny.KernelType
 import main.utilities.Image.applyConvolution
 import java.awt.image.BufferedImage
 import java.io.File
@@ -15,11 +16,11 @@ class Main {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val theFile = File("""C:\Princess_Anne.jpg""");
+            val theFile = File("""C:\download.jpg""");
             val theImage: BufferedImage = ImageIO.read(theFile)
 
             showImage(theImage)
-            val kernelApplied = applyConvolution(theImage)
+            val kernelApplied = applyConvolution(theImage, KernelType.IDENTITY)
             showImage(kernelApplied)
         }
 
@@ -32,7 +33,7 @@ class Main {
             val imageLabel = JLabel()
             imageLabel.icon = ImageIcon(img)
             panel.add(imageLabel)
-            frame.pack();
+            frame.pack()
         }
     }
 }

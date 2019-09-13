@@ -43,14 +43,16 @@ object Image {
         return image
     }
 
-    fun applyConvolution(image: BufferedImage, kernel: KernelType = KernelType.IDENTITY): BufferedImage {
+    fun applyConvolution(image: BufferedImage, kernel: KernelType): BufferedImage {
 
         //Create a new image same width and height as the original
         val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_BYTE_GRAY)
 
-        // Start from 5 pixels in and minus 5 from the width and height as I can't be dealing with out of bounds exception.
-        for (y_axis in 5..(image.height - 5)) {
-            for (x_axis in 5..(image.width - 5)) {
+        // To avoid any out of bounds exceptions start from pixel 1 in the image's top left and bottom left corners.
+        // Minus 1 from the width and height as we start from 0 in the loop and minus another one to avoid out of bounds
+        // exceptions in the images top right and bottom right corners.
+        for (y_axis in 1..(image.height - 2)) {
+            for (x_axis in 1..(image.width - 2)) {
 
                 // Generate a series of points surrounding the current pixel
                 val topLeft = Point(x_axis - 1, y_axis - 1)
@@ -90,7 +92,7 @@ object Image {
                         val currentPixelPoint: Point = listOfSurroundingPoints[index]
 
                         val currentPixelColor = Color(image.getRGB(currentPixelPoint.x, currentPixelPoint.y))
-                        val kernelValue: Int = KernelType.EDGE_DETECTION_X.kernelMatrix[index]
+                        val kernelValue: Int = kernel.kernelMatrix[index]
 
                         newRed += (currentPixelColor.red * kernelValue)
                         newGreen += (currentPixelColor.green * kernelValue)
@@ -98,21 +100,20 @@ object Image {
                     }
                 }
 
-                if (newRed < 0) {
+                if (newRed < 0 || newRed > 255) {
                     newRed = 0
                 }
 
-                if (newGreen < 0) {
+                if (newGreen < 0 || newGreen > 255) {
                     newGreen = 0
                 }
 
-                if (newBlue < 0) {
+                if (newBlue < 0 || newBlue > 255) {
                     newBlue = 0
                 }
 
                 //System.err.println("X: $x_axis  Y:$y_axis -> R: $newRed G: $newGreen B: $newBlue")
                 val newPixelColour = Color(newRed, newGreen, newBlue)
-
                 newImage.setRGB(x_axis, y_axis, newPixelColour.rgb)
             }
         }
