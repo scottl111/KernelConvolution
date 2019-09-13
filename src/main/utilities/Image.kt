@@ -49,19 +49,21 @@ object Image {
      * @param image the image to apply edge detection to
      * @return The edge detected buffered image.
      */
-    fun applyEdgeDetectionConvolution(image: BufferedImage): BufferedImage {
+    fun applyEdgeDetectionConvolution(image: BufferedImage, asColor: Boolean = false): BufferedImage {
 
         //Create a new image same width and height as the original
-        val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_BYTE_GRAY)
+        val newImage: BufferedImage = when (asColor) {
+            true -> BufferedImage(image.width, image.height, BufferedImage.TYPE_3BYTE_BGR)
+            false -> BufferedImage(image.width, image.height, BufferedImage.TYPE_BYTE_GRAY)
+        }
 
-        val kernelMatrix: IntArray = KernelType.EDGE_DETECTION_3.kernelMatrix
+        val kernelMatrix: IntArray = KernelType.IDENTITY.kernelMatrix
 
         // To avoid any out of bounds exceptions start from pixel 1 in the image's top left and bottom left corners.
         // Minus 1 from the width and height as we start from 0 in the loop and minus another one to avoid out of bounds
         // exceptions in the images top right and bottom right corners.
         for (yAxis in 1..(image.height - 2)) {
             for (xAxis in 1..(image.width - 2)) {
-
 
                 // Now we'll apply the value of each pixel's colour to the value within the kernel.
                 // the 'new...' colours below are the cumulative values of each colour channel that will become the
@@ -111,6 +113,16 @@ object Image {
             }
         }
         return newImage
+    }
+
+    internal fun convertRGBtoHSV(hsvColour: Color) {
+        //todo
+    }
+
+    internal fun convertHSVtoRGB(rgbColour: Color): FloatArray {
+        val hsv = FloatArray(3)
+        Color.RGBtoHSB(rgbColour.red, rgbColour.green, rgbColour.blue, hsv)
+        return hsv
     }
 
     /**

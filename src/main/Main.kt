@@ -19,7 +19,7 @@ class Main {
             val theImage: BufferedImage = ImageIO.read(theFile)
 
             showImage(theImage)
-            val kernelApplied = applyEdgeDetectionConvolution(theImage)
+            val kernelApplied = applyEdgeDetectionConvolution(theImage, true)
             showImage(kernelApplied)
         }
 

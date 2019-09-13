@@ -30,8 +30,8 @@ enum class KernelType(val kernelMatrix: IntArray) {
     EDGE_DETECTION_2(
         intArrayOf(
             0, 1, 0,
-            1, -4, 1,
-            0, 1, 0
+            1, -4, 1
+            , 0, 1, 0
         )
     ),
 
