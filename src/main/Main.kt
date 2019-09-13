@@ -1,6 +1,6 @@
 package main
 
-import main.utilities.Image.applyConvolution
+import main.utilities.Image.applyEdgeDetectionConvolution
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -19,7 +19,7 @@ class Main {
             val theImage: BufferedImage = ImageIO.read(theFile)
 
             showImage(theImage)
-            val kernelApplied = applyConvolution(theImage)
+            val kernelApplied = applyEdgeDetectionConvolution(theImage)
             showImage(kernelApplied)
         }
 

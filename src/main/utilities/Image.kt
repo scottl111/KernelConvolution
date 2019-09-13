@@ -43,7 +43,13 @@ object Image {
         return image
     }
 
-    fun applyConvolution(image: BufferedImage): BufferedImage {
+    /**
+     * Applied an edge detection to the given image.
+     *
+     * @param image the image to apply edge detection to
+     * @return The edge detected buffered image.
+     */
+    fun applyEdgeDetectionConvolution(image: BufferedImage): BufferedImage {
 
         //Create a new image same width and height as the original
         val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_BYTE_GRAY)
@@ -66,7 +72,7 @@ object Image {
                 for (kernel_height in 0..2) {
                     for (kernel_width in 0..2) {
 
-                        val listOfSurroundingPoints = getSurroundingPixelPositions(Point(xAxis, xAxis))
+                        val listOfSurroundingPoints = getSurroundingPixelPositions(Point(xAxis, yAxis))
 
                         // Determine the point within the matrix that we want to extract the weight from.
                         val index = (kernel_height * 3) + kernel_width

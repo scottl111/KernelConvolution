@@ -46,11 +46,14 @@ enum class KernelType(val kernelMatrix: IntArray) {
         )
     ),
 
+    /**
+     * My own edge detection matrix.
+     */
     EDGE_DETECTION_4(
         intArrayOf(
-            2, 2, 2,
-            -1, 5, +1,
-            -2, -2, -2
+            1, 2, 0,
+            0, 4, 0,
+            0, -2, -1
         )
     ),
 
