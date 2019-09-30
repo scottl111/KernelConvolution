@@ -1,6 +1,11 @@
-package main.canny
+package main.kotlin.canny
 
-enum class KernelType(val kernelMatrix: IntArray) {
+/**
+ * An enum that defines the types of kernels that can be applied to an image.
+ *
+ * @param matrix The matrix
+ */
+enum class KernelType(val matrix: IntArray) {
 
     /**
      * The identity matrix. Has no effect on the imagery
