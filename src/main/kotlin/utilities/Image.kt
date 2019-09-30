@@ -1,11 +1,32 @@
-package main.utilities
+package main.kotlin.utilities
 
-import main.canny.KernelType
+import main.kotlin.canny.KernelType
 import java.awt.Color
 import java.awt.Point
 import java.awt.image.BufferedImage
+import javax.swing.ImageIcon
+import javax.swing.JFrame
+import javax.swing.JLabel
+import javax.swing.JPanel
 
 object Image {
+
+    /**
+     * Displays an image within a JFrame
+     *
+     * @param img The image to display
+     */
+    fun showImage(img: BufferedImage) {
+        val frame = JFrame();
+        frame.isVisible = true
+        frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+        val panel = JPanel()
+        frame.add(panel)
+        val imageLabel = JLabel()
+        imageLabel.icon = ImageIcon(img)
+        panel.add(imageLabel)
+        frame.pack()
+    }
 
     /**
      * Converts a buffered image into a 2D array of pixels.
@@ -47,21 +68,26 @@ object Image {
      * Applied an edge detection to the given image.
      *
      * @param image the image to apply edge detection to
+     * @param asColor True if the image should be applied as colour or not
+     * @param kernelMatrix The kernel to apply to the image.
+     *
      * @return The edge detected buffered image.
      */
-    fun applyEdgeDetectionConvolution(image: BufferedImage): BufferedImage {
+    fun applyEdgeDetectionConvolution(image: BufferedImage,
+                                      asColor: Boolean = false,
+                                      kernelToApply: KernelType = KernelType.EDGE_DETECTION_1): BufferedImage {
 
         //Create a new image same width and height as the original
-        val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_BYTE_GRAY)
-
-        val kernelMatrix: IntArray = KernelType.EDGE_DETECTION_3.kernelMatrix
+        val newImage: BufferedImage = when (asColor) {
+            true -> BufferedImage(image.width, image.height, BufferedImage.TYPE_3BYTE_BGR)
+            false -> BufferedImage(image.width, image.height, BufferedImage.TYPE_BYTE_GRAY)
+        }
 
         // To avoid any out of bounds exceptions start from pixel 1 in the image's top left and bottom left corners.
         // Minus 1 from the width and height as we start from 0 in the loop and minus another one to avoid out of bounds
         // exceptions in the images top right and bottom right corners.
         for (yAxis in 1..(image.height - 2)) {
             for (xAxis in 1..(image.width - 2)) {
-
 
                 // Now we'll apply the value of each pixel's colour to the value within the kernel.
                 // the 'new...' colours below are the cumulative values of each colour channel that will become the
@@ -82,7 +108,7 @@ object Image {
                         val currentPixelColor = Color(image.getRGB(currentPixelPoint.x, currentPixelPoint.y))
 
                         // Get the value from the matrix that we want to apply to the colour
-                        val kernelValue: Int = kernelMatrix[index]
+                        val kernelValue: Int = kernelToApply.matrix[index]
 
                         // Apply the kernel to each channel and add it to  the new value
                         newRed += (currentPixelColor.red * kernelValue)
